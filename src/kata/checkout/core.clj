@@ -27,8 +27,4 @@
                     rules-content (slurp rules-path)
                     rules (eval (read-string rules-content))]
                 (println rules)
-                ;('user/side-effectful)
-                (rules)
-                ;(println rules-content)
-                ;(println rules-file)
-                )))))
+                (rules))))))
