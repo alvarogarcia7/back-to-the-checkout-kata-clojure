@@ -9,8 +9,12 @@
    ["-h" "--help"]])
 
 (defn execute
-  [& rule-code]
-  (map #(%) rule-code))
+  [rules]
+  (loop [rule (first rules) rest-of-rules (rest rules)]
+    (rule)
+    (if (empty? rest-of-rules)
+      '()
+      (recur (first rest-of-rules) (rest rest-of-rules)))))
 
 (defn -main
   [& args]
@@ -37,9 +41,5 @@
               (println "doing stuff")
               (println matching-rules)
               (println rule-code)
-              (loop [f (first rule-code) res (rest rule-code)]
-                (f)
-                (if (empty? res)
-                  '()
-                  (recur (first res) (rest res))))
+              (execute rule-code)
               ))))
