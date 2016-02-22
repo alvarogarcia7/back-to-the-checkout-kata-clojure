@@ -39,7 +39,5 @@
                   rule-code (map :expr matching-rules)]
               ;(println options)
               (println "doing stuff")
-              (println matching-rules)
-              (println rule-code)
               (execute rule-code)
               ))))
