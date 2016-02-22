@@ -25,8 +25,8 @@
        eval))
 
 (defn- find-matching-rules
-  [config]
-  (let [find-by-name #(= (:name %) :side-effectful)
+  [matching config]
+  (let [find-by-name
         selector (:selector config)]
     (->> config
          :rules
@@ -47,7 +47,8 @@
                           (println (:errors options)))
       (help? options) (print-help options)
       :else (let [config (config options)
-                  matching-rules (find-matching-rules config)]
+                  with-name #(= (:name %) :side-effectful)
+                  matching-rules (find-matching-rules with-name config)]
               ;(println options)
               (println "doing stuff")
               (execute matching-rules)))))
