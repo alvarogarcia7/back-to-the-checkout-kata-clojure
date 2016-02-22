@@ -9,8 +9,8 @@
    ["-h" "--help"]])
 
 (defn execute
-  [rule-code]
-  (rule-code))
+  [& rule-code]
+  (map #(%) rule-code))
 
 (defn -main
   [& args]
@@ -24,13 +24,19 @@
                           (print-help options)
                           (println (:errors options)))
       (help? options) (print-help options)
-      :else (do
-              (println "doing stuff")
+      :else (let [rules-path (get-in options [:options :rules])
+                  rules-content (slurp rules-path)
+                  config (eval (read-string rules-content))
+
+                  find-by-name #(= (:name %) :side-effectful)
+                  rules (:rules config)
+                  ;select (:applier config)
+                  matching-rules (filter find-by-name rules)
+                  rule-code (map :expr matching-rules)]
               ;(println options)
-              (let [rules-path (get-in options [:options :rules])
-                    rules-content (slurp rules-path)
-                    rules (eval (read-string rules-content))
-                    find-by-name #(= (:name %) :side-effectful)
-                    rule-code (:expr (first (filter find-by-name rules)))]
-                (println rules)
-                (execute rule-code))))))
+              (println "doing stuff")
+              (println matching-rules)
+              (println rule-code)
+              ((first rule-code))
+              ((second rule-code))
+              ))))
