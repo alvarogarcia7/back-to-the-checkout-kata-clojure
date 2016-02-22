@@ -6,5 +6,5 @@
          {:name :side-effectful
           :expr (fn [] (println "in a rule, v3"))}
          ]
- :applier (fn [& fs]
-            (list (first fs)))}
+ :selector (fn [fs]
+             (list (first fs)))}
