@@ -27,4 +27,4 @@
                     rules-content (slurp rules-path)
                     rules (eval (read-string rules-content))]
                 (println rules)
-                (rules))))))
+                ((:expr (first (filter #(= (:name %) :side-effectful) rules)))))))))

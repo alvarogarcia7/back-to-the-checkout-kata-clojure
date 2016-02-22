@@ -14,3 +14,19 @@ side-effectful
 (side-effectful)
 (slurp rules-path)
 (read-string (slurp rules-path))
+(load "dev-resources/rules"
+)
+(load "../dev-resources/rules")
+rules
+(read-string (slurp rules-path))
+(def rules (eval (read-string (slurp rules-path))))
+rules
+(filter #(-> true) rules)
+(eval (read-string (slurp rules-path)))
+(def rules (eval (read-string (slurp rules-path))))
+rules
+(filter #(-> true) rules)
+(filter #(-> %) rules)
+(filter #(= (:name %) :side-effectful) rules)
+(first (filter #(= (:name %) :side-effectful) rules))
+(:expr (first (filter #(= (:name %) :side-effectful) rules)))

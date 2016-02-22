@@ -1,3 +1,4 @@
-  (defn side-effectful
-  []
-  (println "in a rule"))
+[
+ {:name :side-effectful
+  :expr (fn [] (println "in a rule"))}
+ ]
