@@ -8,6 +8,10 @@
   [["-r" "--rules FILE" "where to find the rules"]
    ["-h" "--help"]])
 
+(defn execute
+  [rule-code]
+  (rule-code))
+
 (defn -main
   [& args]
   (let [options (parse-opts args cli-options :strict true :missing true)
@@ -25,6 +29,8 @@
               ;(println options)
               (let [rules-path (get-in options [:options :rules])
                     rules-content (slurp rules-path)
-                    rules (eval (read-string rules-content))]
+                    rules (eval (read-string rules-content))
+                    find-by-name #(= (:name %) :side-effectful)
+                    rule-code (:expr (first (filter find-by-name rules)))]
                 (println rules)
-                ((:expr (first (filter #(= (:name %) :side-effectful) rules)))))))))
+                (execute rule-code))))))
