@@ -40,5 +40,4 @@
                   rule-code (map :expr selected-rules)]
               ;(println options)
               (println "doing stuff")
-              (execute rule-code)
-              ))))
+              (execute rule-code)))))
