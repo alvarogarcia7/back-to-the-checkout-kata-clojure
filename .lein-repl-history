@@ -1,0 +1,16 @@
+(file "")
+(use 'clojure.java.io)
+(file "")
+(source get-in)
+(def rules-file (file rules-path))
+(def rules-path "./dev-resources/rules.clj")
+(def rules-file (file rules-path))
+rules-file
+(slurp rules-path)
+(read-string (slurp rules-path))
+((read-string (slurp rules-path)))
+(eval (read-string (slurp rules-path)))
+side-effectful
+(side-effectful)
+(slurp rules-path)
+(read-string (slurp rules-path))
