@@ -16,6 +16,24 @@
       '()
       (recur (first rest-of-rules) (rest rest-of-rules)))))
 
+(defn- config
+  [options]
+  (->> [:options :rules]
+       (get-in options)
+       slurp
+       read-string
+       eval))
+
+(defn- find-matching-rules
+  [config]
+  (let [find-by-name #(= (:name %) :side-effectful)
+        selector (:selector config)]
+    (->> config
+         :rules
+         (filter find-by-name)
+         selector
+         (map :expr))))
+
 (defn -main
   [& args]
   (let [options (parse-opts args cli-options :strict true :missing true)
@@ -28,20 +46,8 @@
                           (print-help options)
                           (println (:errors options)))
       (help? options) (print-help options)
-      :else (let [config (->> [:options :rules]
-                       (get-in options)
-                       slurp
-                       read-string
-                       eval)
-
-                  find-by-name #(= (:name %) :side-effectful)
-                  selector (:selector config)
-
-                  matching-rules (->> config
-                       :rules
-                       (filter find-by-name)
-                       selector
-                       (map :expr))]
+      :else (let [config (config options)
+                  matching-rules (find-matching-rules config)]
               ;(println options)
               (println "doing stuff")
               (execute matching-rules)))))
