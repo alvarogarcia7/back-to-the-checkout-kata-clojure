@@ -37,6 +37,9 @@
               (println "doing stuff")
               (println matching-rules)
               (println rule-code)
-              ((first rule-code))
-              ((second rule-code))
+              (loop [f (first rule-code) res (rest rule-code)]
+                (f)
+                (if (empty? res)
+                  '()
+                  (recur (first res) (rest res))))
               ))))
